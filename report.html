@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your ResumeFit Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- jsPDF Library for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+    </style>
+</head>
+<body class="text-slate-800">
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <img src="ResumeFit.jpg" alt="ResumeFit Logo" class="mx-auto mb-4 w-24 h-24" onerror="this.style.display='none'">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">ResumeFit Analysis Report</h1>
+        </header>
+        <main id="results-content" class="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-slate-200 min-h-[300px]">
+             <!-- Tab Navigation -->
+            <div class="border-b border-slate-200 mb-4">
+                <nav class="flex -mb-px" aria-label="Tabs">
+                    <button id="tab-report" class="tab-active font-medium px-6 py-3 transition-colors duration-200">Full Report</button>
+                    <button id="tab-feedback" class="tab-inactive font-medium px-6 py-3 transition-colors duration-200">Feedback</button>
+                    <button id="tab-cover-letter" class="tab-inactive font-medium px-6 py-3 transition-colors duration-200">Cover Letter</button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div>
+                <!-- Full Report Panel -->
+                <div id="panel-report">
+                    <div class="flex justify-end mb-4">
+                         <button id="download-report-button" class="bg-blue-500 text-white hover:bg-blue-600 font-semibold py-1 px-3 rounded-md text-sm flex items-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Download Report PDF
+                        </button>
+                    </div>
+                    <div id="report-container" class="max-w-2xl mx-auto">
+                        <!-- Score and summary will be injected here -->
+                    </div>
+                </div>
+
+                <!-- Resume Feedback Panel -->
+                <div id="panel-feedback" class="hidden">
+                    <div class="flex justify-end mb-4">
+                         <button id="download-feedback-button" class="bg-slate-200 text-slate-600 hover:bg-slate-300 font-semibold py-1 px-3 rounded-md text-sm flex items-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Download Feedback PDF
+                        </button>
+                    </div>
+                    <div id="feedback-content-wrapper" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div id="strengths-card" class="bg-green-50 border border-green-200 rounded-lg p-4"></div>
+                        <div id="improvements-card" class="bg-yellow-50 border border-yellow-200 rounded-lg p-4"></div>
+                    </div>
+                </div>
+                
+                <!-- Cover Letter Panel -->
+                <div id="panel-cover-letter" class="hidden prose max-w-none">
+                     <div class="flex justify-end space-x-2 mb-4 not-prose">
+                        <button id="copy-button" class="bg-slate-200 text-slate-600 hover:bg-slate-300 font-semibold py-1 px-3 rounded-md text-sm flex items-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Copy
+                        </button>
+                        <button id="download-cover-letter-button" class="bg-slate-200 text-slate-600 hover:bg-slate-300 font-semibold py-1 px-3 rounded-md text-sm flex items-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Download PDF
+                        </button>
+                    </div>
+                    <div id="cover-letter-content-wrapper"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const { jsPDF } = window.jspdf;
+            const reportDataString = sessionStorage.getItem('aiReportData');
+            
+            const tabFeedback = document.getElementById('tab-feedback');
+            const tabReport = document.getElementById('tab-report');
+            const tabCoverLetter = document.getElementById('tab-cover-letter');
+            
+            const panelFeedback = document.getElementById('panel-feedback');
+            const panelReport = document.getElementById('panel-report');
+            const panelCoverLetter = document.getElementById('panel-cover-letter');
+            
+            const reportContainer = document.getElementById('report-container');
+            const strengthsCard = document.getElementById('strengths-card');
+            const improvementsCard = document.getElementById('improvements-card');
+            const coverLetterContentWrapper = document.getElementById('cover-letter-content-wrapper');
+            const copyButton = document.getElementById('copy-button');
+            const downloadReportButton = document.getElementById('download-report-button');
+            const downloadFeedbackButton = document.getElementById('download-feedback-button');
+            const downloadCoverLetterButton = document.getElementById('download-cover-letter-button');
+
+            let reportJson = null;
+
+            if (reportDataString) {
+                reportJson = JSON.parse(reportDataString);
+                renderFeedback(reportJson.strengths, reportJson.improvements);
+                renderFullReport(reportJson.overall_score, reportJson.report);
+                coverLetterContentWrapper.innerHTML = reportJson.cover_letter.replace(/\n/g, '<br>');
+            } else {
+                reportContainer.innerHTML = `<p class="text-center text-slate-500">No report data found. Please generate a new report from the main page.</p>`;
+            }
+
+            function renderFeedback(strengths, improvements) {
+                strengthsCard.innerHTML = `
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2"><path d="M7 10v12"></path><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a2 2 0 0 1 1.79 1.11L15 5.88Z"></path></svg>
+                        <h3 class="text-lg font-semibold text-green-800">What's Great</h3>
+                    </div>
+                    <ul class="list-disc list-inside text-green-700 space-y-2">
+                        ${strengths.map(s => `<li>${s}</li>`).join('')}
+                    </ul>`;
+                improvementsCard.innerHTML = `
+                    <div class="flex items-center mb-3">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-600 mr-2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+                        <h3 class="text-lg font-semibold text-yellow-800">Areas for Improvement</h3>
+                    </div>
+                    <ul class="list-disc list-inside text-yellow-700 space-y-2">
+                        ${improvements.map(i => `<li>${i}</li>`).join('')}
+                    </ul>`;
+            }
+            
+            function renderFullReport(overallScore, reportData) {
+                const scoreColor = overallScore < 40 ? '#ef4444' : overallScore < 70 ? '#f59e0b' : '#22c55e';
+                let reportHtml = `
+                    <div class="text-center border-b pb-4 mb-4">
+                        <h3 class="text-xl font-bold text-slate-800">Your Score</h3>
+                        <p class="text-5xl font-bold" style="color: ${scoreColor};">${overallScore}<span class="text-3xl text-slate-400">/100</span></p>
+                    </div>
+                    <div class="space-y-2">
+                `;
+                
+                reportData.forEach(category => {
+                    const categoryColor = category.score < 40 ? 'text-red-500' : category.score < 70 ? 'text-yellow-500' : 'text-green-500';
+                    reportHtml += `
+                        <div class="border rounded-lg">
+                            <button class="accordion-toggle w-full flex justify-between items-center p-4 text-left font-semibold">
+                                <span>${category.category}</span>
+                                <div class="flex items-center">
+                                    <span class="font-bold mr-4 ${categoryColor}">${category.score}%</span>
+                                    <svg class="w-5 h-5 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                                </div>
+                            </button>
+                            <div class="accordion-content px-4 pb-4">
+                                <ul class="space-y-2 pt-2 border-t">
+                                    ${category.checks.map(check => `
+                                        <li class="flex items-center">
+                                            ${check.passed 
+                                                ? `<svg class="w-5 h-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>` 
+                                                : `<svg class="w-5 h-5 text-red-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>`
+                                            }
+                                            <span>${check.name}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                reportHtml += `</div>`;
+                reportContainer.innerHTML = reportHtml;
+            }
+            
+            function downloadAsPdf(type) {
+                if (!reportJson) return;
+                const doc = new jsPDF();
+                let y = 15;
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(20);
+                doc.text('ResumeFit Analysis Report', 105, y, { align: 'center' });
+                y += 10;
+
+                if (type === 'report') {
+                    doc.setFontSize(12);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('Overall Score:', 105, y, { align: 'center' });
+                    y += 10;
+
+                    const scoreColor = reportJson.overall_score < 40 ? '#ef4444' : reportJson.overall_score < 70 ? '#f59e0b' : '#22c55e';
+                    doc.setFontSize(28);
+                    doc.setTextColor(scoreColor);
+                    doc.text(`${reportJson.overall_score} / 100`, 105, y, { align: 'center' });
+                    y += 15;
+                    doc.setTextColor('#000000');
+
+                    reportJson.report.forEach(cat => {
+                        doc.setFontSize(14);
+                        doc.setFont('helvetica', 'bold');
+                        doc.text(`${cat.category} (${cat.score}%)`, 14, y);
+                        y += 8;
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(12);
+                        cat.checks.forEach(check => {
+                            doc.text(`- ${check.name}: ${check.passed ? 'Passed' : 'Failed'}`, 20, y);
+                            y += 7;
+                        });
+                        y += 5;
+                    });
+                    doc.save('resume-report.pdf');
+
+                } else if (type === 'feedback') {
+                     doc.setFontSize(16);
+                     doc.setFont('helvetica', 'bold');
+                     doc.text("Feedback Summary", 14, y);
+                     y += 10;
+
+                     doc.setFontSize(14);
+                     doc.setTextColor('#166534'); // green
+                     doc.text("What's Great", 14, y);
+                     y += 8;
+                     doc.setFont('helvetica', 'normal');
+                     doc.setFontSize(12);
+                     doc.setTextColor('#000000');
+                     const strengths = doc.splitTextToSize(reportJson.strengths.map(s => `• ${s}`).join('\n'), 180);
+                     doc.text(strengths, 14, y);
+                     y += strengths.length * 5 + 10;
+
+                     doc.setFontSize(14);
+                     doc.setFont('helvetica', 'bold');
+                     doc.setTextColor('#d97706'); // yellow
+                     doc.text("Areas for Improvement", 14, y);
+                     y += 8;
+                     doc.setFont('helvetica', 'normal');
+                     doc.setFontSize(12);
+                     doc.setTextColor('#000000');
+                     const improvements = doc.splitTextToSize(reportJson.improvements.map(i => `• ${i}`).join('\n'), 180);
+                     doc.text(improvements, 14, y);
+                     doc.save('resume-feedback.pdf');
+
+                } else if (type === 'cover-letter') {
+                    doc.setFontSize(16);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text("Generated Cover Letter", 14, y);
+                    y += 10;
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(12);
+                    const letter = doc.splitTextToSize(reportJson.cover_letter, 180);
+                    doc.text(letter, 14, y);
+                    doc.save('cover-letter.pdf');
+                }
+            }
+
+            // Tab switching logic
+            const tabs = [tabReport, tabFeedback, tabCoverLetter];
+            const panels = [panelReport, panelFeedback, panelCoverLetter];
+
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.replace('tab-active', 'tab-inactive'));
+                    panels.forEach(p => p.classList.add('hidden'));
+                    
+                    tab.classList.replace('tab-inactive', 'tab-active');
+                    panels[index].classList.remove('hidden');
+                });
+            });
+            
+            // Accordion toggle logic (event delegation)
+            reportContainer.addEventListener('click', function(e) {
+                const toggle = e.target.closest('.accordion-toggle');
+                if (toggle) {
+                    const content = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('svg');
+                    icon.classList.toggle('rotate-180');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                }
+            });
+
+            copyButton.addEventListener('click', () => {
+                const coverLetterContent = coverLetterContentWrapper.innerText ?? '';
+                navigator.clipboard.writeText(coverLetterContent)
+                    .then(() => {
+                        alert('Copied to clipboard!');
+                    })
+                    .catch((err) => {
+                        console.error('Failed to copy text: ', err);
+                    });
+            });
+            
+            downloadReportButton.addEventListener('click', () => downloadAsPdf('report'));
+            downloadFeedbackButton.addEventListener('click', () => downloadAsPdf('feedback'));
+            downloadCoverLetterButton.addEventListener('click', () => downloadAsPdf('cover-letter'));
+        });
+    </script>
+</body>
+</html>
