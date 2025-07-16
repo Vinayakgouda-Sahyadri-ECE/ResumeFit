@@ -1,4 +1,5 @@
 
+
 # ResumeFit: AI-Powered Resume & Cover Letter Assistant
 
 ResumeFit is an intelligent web application designed to help job seekers optimize their application materials. By leveraging the power of Google's Gemini AI, this tool analyzes a user's resume against a specific job description to provide a detailed ATS-style report, qualitative feedback, and a custom-generated cover letter.
@@ -17,12 +18,13 @@ This project was built to demonstrate a practical application of modern web tech
 * **AI-Powered File Validation:** Intelligently checks if an uploaded file appears to be a resume before processing.
 * **PDF Downloads:** Allows users to download the detailed report, feedback summary, and cover letter as professional PDF documents.
 * **Fully Responsive Design:** Works seamlessly on all devices, from mobile phones to desktop computers.
+* **Single-Page Experience:** The entire application runs on a single page, with the report dynamically replacing the input view for a smooth user experience.
 
 ---
 
 ## 🚀 Getting Started
 
-To get this project running on your local machine, follow these steps:
+To get this project running on your local machine, follow these simple steps.
 
 ### Prerequisites
 
@@ -33,57 +35,55 @@ To get this project running on your local machine, follow these steps:
 
 ### Installation & Setup
 
-1. **Download the Project Files**
+1. **Download the Project Files:**
 
-   * Download the `index.html` and `report.html` files.
+   * Download the `index.html` file.
    * Download the `ResumeFit.png` logo file.
-   * Place all three files in the same folder on your computer.
+   * Place both files in the same folder on your computer.
 
-2. **Get a Google Gemini API Key**
+2. **Get a Google Gemini API Key:**
 
-   * Go to [Google AI Studio](https://aistudio.google.com/) and create an API key.
+   * This project requires a Google Gemini API key to function. You can get a free key from [Google AI Studio](https://aistudio.google.com/).
+   * Click on **Create API key** and follow the instructions.
 
-3. **Add the API Key to the Code**
+3. **Add the API Key to the Code:**
 
-   * Open `index.html` in your text editor.
-   * Find the line (around **line 241**) that says:
+   * Open the `index.html` file in your text editor.
+   * Find the line of code (around **line 332**) that says:
 
      ```javascript
      const apiKey = ''; // IMPORTANT: Add your API key here
      ```
-   * Replace with your key:
+   * Paste your newly generated API key between the single quotes:
 
      ```javascript
      const apiKey = 'YOUR_API_KEY_HERE';
      ```
-   * Save the file.
+   * Save the `index.html` file.
 
-4. **Run the Application**
+4. **Run the Application:**
 
-   * Double-click `index.html` to open in your default browser.
+   * Find the `index.html` file in your project folder and double-click it.
+     It will open in your default web browser, and the application will be ready to use!
 
 ---
 
 ## 🛠️ How to Use
 
-1. Paste or upload your **resume** on the left.
-2. Paste or upload the **job description** on the right.
-3. Click **Analyze & Generate**.
-4. A new tab will display:
-
-   * Detailed analysis report
-   * Feedback summary
-   * Auto-generated cover letter
+1. **Provide Your Resume:** Either paste your resume text into the left-hand text box or use the **Upload File** button to select a `.txt` or `.pdf` file.
+2. **Provide the Job Description:** Do the same for the job description in the right-hand text box.
+3. **Analyze:** Click the **Analyze & Generate** button.
+4. **View Your Report:** The input view will be replaced by a full report, including detailed analysis, feedback, and a generated cover letter, all on the same page.
 
 ---
 
 ## 💻 Technologies Used
 
-* **HTML5** – Core structure
-* **CSS3 & Tailwind CSS** – Styling and responsiveness
-* **JavaScript (ES6+)** – Logic and API communication
-* **Google Gemini API** – AI-powered analysis
-* **pdf.js** – Extract text from PDFs
-* **jsPDF** – Generate downloadable PDFs
+* **HTML5:** For the core structure of the application.
+* **CSS3 & Tailwind CSS:** For modern, responsive styling and layout.
+* **JavaScript (ES6+):** For all client-side logic, interactivity, and API communication.
+* **Google Gemini API:** The core AI engine for analysis and content generation.
+* **pdf.js:** A library by Mozilla used to read and extract text from uploaded PDF files.
+* **jsPDF:** A library used to generate and download the final reports as PDF files.
 
 
