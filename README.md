@@ -6,6 +6,7 @@ ResumeFit is an intelligent web application designed to help job seekers optimiz
 
 This project was built to demonstrate a practical application of modern web technologies and AI integration in a user-friendly, single-page application format.
 
+https://68778b660ee2a1a491f8e303--resumefits.netlify.app/
 ---
 
 ## ✨ Features
