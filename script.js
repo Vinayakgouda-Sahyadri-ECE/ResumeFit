@@ -1,12 +1,12 @@
 window.addEventListener('DOMContentLoaded', () => {
     const { jsPDF } = window.jspdf;
-    // --- State Variables ---
+  
     let uploadedResumeContent = '';
     let uploadedJdContent = '';
     let analysisCompleted = false;
     let reportJson = null;
 
-    // --- Element References ---
+    
     const mainContent = document.getElementById('main-content');
     const resumeInput = document.getElementById('resume-input');
     const jobDescInput = document.getElementById('job-desc-input');
@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const generalErrorMessage = document.getElementById('general-error-message');
     const generalErrorText = document.getElementById('general-error-text');
 
-    // Resume Upload Elements
+   
     const resumeUploadInput = document.getElementById('resume-upload-input');
     const resumeUploadSuccess = document.getElementById('resume-upload-success');
     const resumeUploadError = document.getElementById('resume-upload-error');
@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const resumeClearButton = document.getElementById('resume-clear-button');
     const resumeClearErrorButton = document.getElementById('resume-clear-error-button');
 
-    // Job Description Upload Elements
+    
     const jdUploadInput = document.getElementById('jd-upload-input');
     const jdUploadSuccess = document.getElementById('jd-upload-success');
     const jdFilename = document.getElementById('jd-filename');
@@ -51,7 +51,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const downloadCoverLetterButton = document.getElementById('download-cover-letter-button');
     const copyAlert = document.getElementById('copy-alert');
 
-    // --- Helper Functions ---
+    
     function setLoading(isLoading, message = 'Analyzing...') {
         if (isLoading) {
             buttonText.textContent = message;
@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return result.candidates[0].content.parts[0].text;
     }
 
-    // --- AI Functions ---
+    
     async function validateResumeContent(text) {
         const prompt = `Is the following text from a professional resume? Answer only with "yes" or "no".\n\nText: "${text.substring(0, 500)}..."`;
         const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
@@ -148,7 +148,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- UI Rendering ---
+
     function renderFeedback(strengths, improvements) {
         strengthsCard.innerHTML = `
             <div class="flex items-center mb-3">
@@ -210,7 +210,7 @@ window.addEventListener('DOMContentLoaded', () => {
         reportContainer.innerHTML = reportHtml;
     }
 
-    // --- File Handling ---
+    
     async function handleFileUpload(event, isResume) {
         const file = event.target.files[0];
         if (!file) return;
@@ -386,7 +386,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- Event Listeners ---
+    
     analyzeButton.addEventListener('click', getAIAssistance);
     resumeUploadInput.addEventListener('change', (e) => handleFileUpload(e, true));
     jdUploadInput.addEventListener('change', (e) => handleFileUpload(e, false));
@@ -394,7 +394,7 @@ window.addEventListener('DOMContentLoaded', () => {
     resumeClearErrorButton.addEventListener('click', () => handleClearFile(true));
     jdClearButton.addEventListener('click', () => handleClearFile(false));
 
-    // Tab switching logic
+   
     const tabs = [tabReport, tabFeedback, tabCoverLetter];
     const panels = [panelReport, panelFeedback, panelCoverLetter];
 
@@ -408,7 +408,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Accordion toggle logic (event delegation)
+
     reportContainer.addEventListener('click', function(e) {
         const toggle = e.target.closest('.accordion-toggle');
         if (toggle) {
