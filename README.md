@@ -5,7 +5,7 @@ ResumeFit is an intelligent, single-page web application that helps job seekers 
 ---
 
 ## 🔗 Live Demo
-https://vinayakgouda-sahyadri-ece.github.io/ResumeFit/
+https://resumefits.netlify.app/
 
 
 ---
