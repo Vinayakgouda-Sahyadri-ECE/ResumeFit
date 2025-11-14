@@ -6,7 +6,7 @@ ResumeFit is an intelligent, single-page web application that helps job seekers 
 
 ## 🔗 Live Demo
 
-[Visit the live demo of ResumeFit](https://resumefits.netlify.app/)
+
 
 ---
 
