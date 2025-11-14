@@ -71,13 +71,20 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     async function callGeminiAPI(payload) {
-        const apiKey = 'YOUR_API_KEY'; // IMPORTANT: Add your API key here
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+    const response = await fetch('/.netlify/functions/apiProxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.text;  // Adjust depending on your proxy response
+}
+
         if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
         const result = await response.json();
         if (!result.candidates || result.candidates.length === 0) {
@@ -440,3 +447,4 @@ window.addEventListener('DOMContentLoaded', () => {
     downloadFeedbackButton.addEventListener('click', () => downloadAsPdf('feedback'));
     downloadCoverLetterButton.addEventListener('click', () => downloadAsPdf('cover-letter'));
 });
+
