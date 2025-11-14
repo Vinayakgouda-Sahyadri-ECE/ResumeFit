@@ -73,7 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // async function callGeminiAPI(payload) {
-    // const apiKey = 'AIzaSyAGuuXDDejdvXHzXLgNEbEbFCEJrKa9H-A'; // <-- REMOVE THIS
+    // const apiKey = 'api'; // <-- REMOVE THIS
     // const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
     // const response = await fetch(apiUrl, {
     //     method: 'POST',
@@ -455,4 +455,5 @@ window.addEventListener('DOMContentLoaded', () => {
     downloadFeedbackButton.addEventListener('click', () => downloadAsPdf('feedback'));
     downloadCoverLetterButton.addEventListener('click', () => downloadAsPdf('cover-letter'));
 }); 
+
 
