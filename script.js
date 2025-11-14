@@ -1,3 +1,5 @@
+
+
 window.addEventListener('DOMContentLoaded', () => {
     const { jsPDF } = window.jspdf;
   
@@ -70,6 +72,17 @@ window.addEventListener('DOMContentLoaded', () => {
         generalErrorMessage.classList.remove('hidden');
     }
 
+    // async function callGeminiAPI(payload) {
+    // const apiKey = 'AIzaSyAGuuXDDejdvXHzXLgNEbEbFCEJrKa9H-A'; // <-- REMOVE THIS
+    // const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    // const response = await fetch(apiUrl, {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(payload)
+    // });
+
+
+    
     async function callGeminiAPI(payload) {
     const response = await fetch('/.netlify/functions/apiProxy', {
         method: 'POST',
@@ -82,16 +95,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     const result = await response.json();
-    return result.text;  // Adjust depending on your proxy response
+
+    // This matches what your apiProxy.js returns
+    return result.text;
 }
 
-        if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
-        const result = await response.json();
-        if (!result.candidates || result.candidates.length === 0) {
-            throw new Error('Invalid response from AI.');
-        }
-        return result.candidates[0].content.parts[0].text;
-    }
 
     
     async function validateResumeContent(text) {
@@ -446,5 +454,5 @@ window.addEventListener('DOMContentLoaded', () => {
     downloadReportButton.addEventListener('click', () => downloadAsPdf('report'));
     downloadFeedbackButton.addEventListener('click', () => downloadAsPdf('feedback'));
     downloadCoverLetterButton.addEventListener('click', () => downloadAsPdf('cover-letter'));
-});
+}); 
 
